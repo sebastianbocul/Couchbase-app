@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">couchbase-app</string>
+    <string name="calculate_button">Calculate</string>
+    <string name="save_button">Save</string>
 </resources>
