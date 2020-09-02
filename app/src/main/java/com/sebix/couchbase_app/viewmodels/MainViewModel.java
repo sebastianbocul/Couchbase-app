@@ -1,5 +1,8 @@
 package com.sebix.couchbase_app.viewmodels;
 
+import android.util.Log;
+
+import androidx.hilt.lifecycle.ViewModelInject;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -9,11 +12,14 @@ import com.sebix.couchbase_app.utils.Resource;
 
 import java.util.ArrayList;
 
+
 public class MainViewModel extends ViewModel {
     private MainRepository mMainRepository;
 
-    public MainViewModel() {
-        mMainRepository = MainRepository.getInstance();
+    @ViewModelInject
+    public MainViewModel(MainRepository mMainRepository) {
+        Log.d("MYLOG", "MainViewModel: ");
+        this.mMainRepository = mMainRepository;
     }
 
     public MutableLiveData<Resource<Numbers>> getmNumbers() {

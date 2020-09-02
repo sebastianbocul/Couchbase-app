@@ -19,8 +19,13 @@ import com.sebix.couchbase_app.viewmodels.MainViewModel;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainFragment extends Fragment {
-    private MainViewModel mMainViewModel;
+    public MainViewModel mMainViewModel;
     private static final String TAG = "MainFragment";
 
     public static MainFragment newInstance() {
@@ -34,16 +39,19 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mMainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         setObservers();
     }
 
+
     private void setObservers() {
+        Log.d("MYLOG", "setObservers: ");
         mMainViewModel.getmNumbers().observe(getViewLifecycleOwner(), new Observer<Resource<Numbers>>() {
             @Override
             public void onChanged(Resource<Numbers> numbersResource) {
+                Log.d("MYLOG", "onChanged: " + numbersResource.data.getNumber2());
                 if (numbersResource != null) {
                     switch (numbersResource.status) {
                         case SUCCESS: {

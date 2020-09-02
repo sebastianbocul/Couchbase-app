@@ -1,11 +1,15 @@
-package com.sebix.couchbase_app;
+package com.sebix.couchbase_app.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.sebix.couchbase_app.R;
 import com.sebix.couchbase_app.ui.MainFragment;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
