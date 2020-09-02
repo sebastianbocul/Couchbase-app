@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +29,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class MainFragment extends Fragment {
     public MainViewModel mMainViewModel;
     private static final String TAG = "MainFragment";
-
+    private TextView mPrimeNumbersTextView;
+    private Button mCalculateButton;
     public static MainFragment newInstance() {
         return new MainFragment();
     }
@@ -42,16 +45,29 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mMainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mPrimeNumbersTextView=view.findViewById(R.id.prime_numbers);
+        mCalculateButton=view.findViewById(R.id.calculate_button);
+        setListeners();
         setObservers();
     }
 
+    private void setListeners() {
+        mCalculateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Numbers numbers = new Numbers(1,10);
+                mMainViewModel.calculateAndUpdate(numbers);
+            }
+        });
+
+    }
 
     private void setObservers() {
         Log.d("MYLOG", "setObservers: ");
         mMainViewModel.getmNumbers().observe(getViewLifecycleOwner(), new Observer<Resource<Numbers>>() {
             @Override
             public void onChanged(Resource<Numbers> numbersResource) {
-                Log.d("MYLOG", "onChanged: " + numbersResource.data.getNumber2());
+                Log.d(TAG, "onChanged: " + numbersResource.data.toString());
                 if (numbersResource != null) {
                     switch (numbersResource.status) {
                         case SUCCESS: {
@@ -74,9 +90,15 @@ public class MainFragment extends Fragment {
             @Override
             public void onChanged(Resource<ArrayList<Integer>> arrayListResource) {
                 if (arrayListResource != null) {
+                    Log.d(TAG, "onChanged primeNumbers:" + arrayListResource.data.size());
                     switch (arrayListResource.status) {
                         case SUCCESS: {
                             Log.d(TAG, "onChanged getPrimeNumbers: arraySize: " + arrayListResource.data.size());
+                            if(arrayListResource.data==null){
+                                mPrimeNumbersTextView.setText("null");
+                                return;
+                            }
+                            mPrimeNumbersTextView.setText(String.valueOf(arrayListResource.data.size()));
                             break;
                         }
                         case ERROR: {

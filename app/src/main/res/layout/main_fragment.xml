@@ -6,6 +6,21 @@
     android:orientation="vertical"
     tools:context=".ui.MainFragment">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:text="@string/prime_numbers"
+        android:textSize="30sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/prime_numbers"
+        android:textSize="30sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,15 +57,14 @@
             android:layout_weight="1"
             android:gravity="bottom"
             android:hint="from"
-            android:inputType="number"
-            />
+            android:inputType="number" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number"
-            android:hint="to"/>
+            android:hint="to"
+            android:inputType="number" />
     </LinearLayout>
 
     <LinearLayout

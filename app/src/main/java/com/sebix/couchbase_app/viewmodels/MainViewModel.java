@@ -8,10 +8,20 @@ import androidx.lifecycle.ViewModel;
 
 import com.sebix.couchbase_app.models.Numbers;
 import com.sebix.couchbase_app.repositories.MainRepository;
+import com.sebix.couchbase_app.utils.CalculatePrimeNumbers;
 import com.sebix.couchbase_app.utils.Resource;
 
-import java.util.ArrayList;
+import org.reactivestreams.Subscriber;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleObserver;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Cancellable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainViewModel extends ViewModel {
     private MainRepository mMainRepository;
@@ -30,7 +40,7 @@ public class MainViewModel extends ViewModel {
         return mMainRepository.getmPrimeNumbers();
     }
 
-    public void setPrimeNumbers(MutableLiveData<Resource<ArrayList<Integer>>> primesNumbers) {
+    public void setPrimeNumbers(Resource<ArrayList<Integer>>  primesNumbers) {
         mMainRepository.setmPrimeNumbers(primesNumbers);
     }
 
@@ -38,22 +48,42 @@ public class MainViewModel extends ViewModel {
         mMainRepository.setmNumbers(numbers);
     }
 
-    private void calculateAndUpdate(Numbers numbers) {
+
+
+    public void calculateAndUpdate(Numbers numbers) {
         setNumbers(numbers);
-        MutableLiveData<Resource<ArrayList<Integer>>> primeNumbers = new MutableLiveData<>();
-        ArrayList<Integer> primeNumbersList = new ArrayList<>();
-        primeNumbers.postValue(Resource.calculating(primeNumbersList));
-        setPrimeNumbers(primeNumbers);
+        ArrayList<Integer> primeNumbersList = new ArrayList<Integer>();
+        setPrimeNumbers(Resource.calculating(primeNumbersList));
+
+
         //handelr 3s zeby jak za dlugo to błąd wywalilo
-        primeNumbersList = calculatePrimeNumbers(numbers);
-        primeNumbers.postValue(Resource.success(primeNumbersList));
+
+        //mozna zrobic debug/ production release zeby dodac handlery
+        Single.create(emitter -> {
+            ArrayList<Integer> list = new ArrayList<>();
+            list = CalculatePrimeNumbers.calculate(numbers);
+            emitter.onSuccess(list);
+            emitter.setCancellable(new Cancellable() {
+                @Override
+                public void cancel() throws Exception {
+                    //clean memory
+                }
+            });
+        }).subscribeOn(Schedulers.io()).subscribe(new SingleObserver<Object>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+            }
+
+            @Override
+            public void onSuccess(@NonNull Object o) {
+                Log.d("MainFragment", "onSuccess: RxJava" + o.toString());
+                setPrimeNumbers(Resource.success((ArrayList<Integer>) o));
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+            }
+        });
     }
 
-    private ArrayList<Integer> calculatePrimeNumbers(Numbers numbers) {
-        ArrayList<Integer> primeNumbersList = new ArrayList<>();
-        for (int i = numbers.getNumber1(); i <= numbers.getNumber2(); i++) {
-            primeNumbersList.add(i);
-        }
-        return primeNumbersList;
-    }
 }

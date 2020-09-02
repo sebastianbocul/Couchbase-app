@@ -48,4 +48,12 @@ public class Numbers {
     public int hashCode() {
         return Objects.hash(number1, number2);
     }
+
+    @Override
+    public String toString() {
+        return "Numbers{" +
+                "number1=" + number1 +
+                ", number2=" + number2 +
+                '}';
+    }
 }

@@ -20,5 +20,5 @@ class AppModules {
         return new MainRepository();
     }
 
-    //we will need to create database here
+    //we will need to init couchdatabase here
 }

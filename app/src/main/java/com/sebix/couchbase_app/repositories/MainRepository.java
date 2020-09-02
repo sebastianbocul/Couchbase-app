@@ -17,7 +17,7 @@ public class MainRepository {
     @Inject
     public MainRepository() {
         Log.d("MYLOG", "MainRepository: ");
-        mNumbers.postValue(Resource.success(new Numbers(0,10)));
+        mNumbers.postValue(Resource.success(new Numbers(0,1)));
         mPrimeNumbers.postValue(Resource.success(new ArrayList<Integer>()));
     }
 
@@ -33,7 +33,9 @@ public class MainRepository {
         return mPrimeNumbers;
     }
 
-    public void setmPrimeNumbers(MutableLiveData<Resource<ArrayList<Integer>>> mPrimeNumbers) {
-        this.mPrimeNumbers = mPrimeNumbers;
+    public void setmPrimeNumbers(Resource<ArrayList<Integer>> mPrimeNumbersList) {
+        Log.d("MainFragment", "setmPrimeNumbers: " + mPrimeNumbersList.data.isEmpty());
+        this.mPrimeNumbers.postValue(mPrimeNumbersList);
+        Log.d("MainFragment", "setmPrimeNumbers: " + mPrimeNumbersList.data.size());
     }
 }
