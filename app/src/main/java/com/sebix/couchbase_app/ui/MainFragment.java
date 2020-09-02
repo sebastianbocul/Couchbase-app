@@ -1,22 +1,27 @@
 package com.sebix.couchbase_app.ui;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.sebix.couchbase_app.R;
+import com.sebix.couchbase_app.models.Numbers;
+import com.sebix.couchbase_app.utils.Resource;
 import com.sebix.couchbase_app.viewmodels.MainViewModel;
 
+import java.util.ArrayList;
+
 public class MainFragment extends Fragment {
-    private MainViewModel mViewModel;
+    private MainViewModel mMainViewModel;
+    private static final String TAG = "MainFragment";
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -31,8 +36,52 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mMainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        setObservers();
+    }
 
-        mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        // TODO: Use the ViewModel
+    private void setObservers() {
+        mMainViewModel.getmNumbers().observe(getViewLifecycleOwner(), new Observer<Resource<Numbers>>() {
+            @Override
+            public void onChanged(Resource<Numbers> numbersResource) {
+                if (numbersResource != null) {
+                    switch (numbersResource.status) {
+                        case SUCCESS: {
+                            Log.d(TAG, "onChanged: number1: " + numbersResource.data.getNumber1() + " number2: " + numbersResource.data.getNumber2());
+                            break;
+                        }
+                        case ERROR: {
+                            Log.d(TAG, "onChanged: error arraysize: " + numbersResource.data.getNumber1() + " number2: " + numbersResource.data.getNumber2());
+                            break;
+                        }
+                        default: {
+                            Log.d(TAG, "onChanged: default");
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        mMainViewModel.getmPrimeNumbers().observe(getViewLifecycleOwner(), new Observer<Resource<ArrayList<Integer>>>() {
+            @Override
+            public void onChanged(Resource<ArrayList<Integer>> arrayListResource) {
+                if (arrayListResource != null) {
+                    switch (arrayListResource.status) {
+                        case SUCCESS: {
+                            Log.d(TAG, "onChanged getPrimeNumbers: arraySize: " + arrayListResource.data.size());
+                            break;
+                        }
+                        case ERROR: {
+                            Log.d(TAG, "onChanged getPrimeNumbers: error arraysize: " + arrayListResource.data.size());
+                            break;
+                        }
+                        default: {
+                            Log.d(TAG, "onChanged getPrimeNumbers: default");
+                            break;
+                        }
+                    }
+                }
+            }
+        });
     }
 }

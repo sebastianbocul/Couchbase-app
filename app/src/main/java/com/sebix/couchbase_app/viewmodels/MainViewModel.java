@@ -20,31 +20,34 @@ public class MainViewModel extends ViewModel {
         return mMainRepository.getmNumbers();
     }
 
-    public MutableLiveData<Resource<ArrayList<Integer>>> getmOddNumbers() {
-        return mMainRepository.getmOddNumbers();
+    public MutableLiveData<Resource<ArrayList<Integer>>> getmPrimeNumbers() {
+        return mMainRepository.getmPrimeNumbers();
     }
 
-    public void setOddNumbers(MutableLiveData<Resource<ArrayList<Integer>>> oddsNumbers) {
-        mMainRepository.setmOddNumbers(oddsNumbers);
+    public void setPrimeNumbers(MutableLiveData<Resource<ArrayList<Integer>>> primesNumbers) {
+        mMainRepository.setmPrimeNumbers(primesNumbers);
+    }
+
+    public void setNumbers(Numbers numbers) {
+        mMainRepository.setmNumbers(numbers);
     }
 
     private void calculateAndUpdate(Numbers numbers) {
-        MutableLiveData<Resource<ArrayList<Integer>>> oddNumbers = new MutableLiveData<>();
-        ArrayList<Integer> oddNumbersList = new ArrayList<>();
-        oddNumbers.postValue(Resource.calculating(oddNumbersList));
-        setOddNumbers(oddNumbers);
-
+        setNumbers(numbers);
+        MutableLiveData<Resource<ArrayList<Integer>>> primeNumbers = new MutableLiveData<>();
+        ArrayList<Integer> primeNumbersList = new ArrayList<>();
+        primeNumbers.postValue(Resource.calculating(primeNumbersList));
+        setPrimeNumbers(primeNumbers);
         //handelr 3s zeby jak za dlugo to błąd wywalilo
-        oddNumbersList = calculateOddNumbers(numbers);
-
-        oddNumbers.postValue(Resource.success(oddNumbersList));
+        primeNumbersList = calculatePrimeNumbers(numbers);
+        primeNumbers.postValue(Resource.success(primeNumbersList));
     }
 
-    private ArrayList<Integer> calculateOddNumbers(Numbers numbers) {
-        ArrayList<Integer> oddNumbersList = new ArrayList<>();
+    private ArrayList<Integer> calculatePrimeNumbers(Numbers numbers) {
+        ArrayList<Integer> primeNumbersList = new ArrayList<>();
         for (int i = numbers.getNumber1(); i <= numbers.getNumber2(); i++) {
-            oddNumbersList.add(i);
+            primeNumbersList.add(i);
         }
-        return oddNumbersList;
+        return primeNumbersList;
     }
 }
