@@ -9,12 +9,10 @@ import androidx.lifecycle.ViewModel;
 import com.sebix.couchbase_app.models.Numbers;
 import com.sebix.couchbase_app.repositories.MainRepository;
 import com.sebix.couchbase_app.utils.CalculatePrimeNumbers;
+import com.sebix.couchbase_app.utils.Constants;
 import com.sebix.couchbase_app.utils.Resource;
 
-import org.reactivestreams.Subscriber;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Single;
@@ -40,7 +38,7 @@ public class MainViewModel extends ViewModel {
         return mMainRepository.getmPrimeNumbers();
     }
 
-    public void setPrimeNumbers(Resource<ArrayList<Integer>>  primesNumbers) {
+    public void setPrimeNumbers(Resource<ArrayList<Integer>> primesNumbers) {
         mMainRepository.setmPrimeNumbers(primesNumbers);
     }
 
@@ -52,14 +50,13 @@ public class MainViewModel extends ViewModel {
 
     public void calculateAndUpdate(Numbers numbers) {
         setNumbers(numbers);
+
+        Log.d("MainFragment", "SEND LOADING MESS");
         ArrayList<Integer> primeNumbersList = new ArrayList<Integer>();
         setPrimeNumbers(Resource.calculating(primeNumbersList));
 
-
-        //handelr 3s zeby jak za dlugo to błąd wywalilo
-
         //mozna zrobic debug/ production release zeby dodac handlery
-        Single.create(emitter -> {
+        Single<Object> obs = Single.create(emitter -> {
             ArrayList<Integer> list = new ArrayList<>();
             list = CalculatePrimeNumbers.calculate(numbers);
             emitter.onSuccess(list);
@@ -69,7 +66,10 @@ public class MainViewModel extends ViewModel {
                     //clean memory
                 }
             });
-        }).subscribeOn(Schedulers.io()).subscribe(new SingleObserver<Object>() {
+        })
+                .delaySubscription(Constants.timeDelay, Constants.timeUnit)
+                .subscribeOn(Schedulers.io());
+        SingleObserver<Object> singleObserver = new SingleObserver<Object>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
             }
@@ -83,7 +83,7 @@ public class MainViewModel extends ViewModel {
             @Override
             public void onError(@NonNull Throwable e) {
             }
-        });
+        };
+        obs.subscribe(singleObserver);
     }
-
 }

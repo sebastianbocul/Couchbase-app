@@ -6,6 +6,12 @@ import java.util.ArrayList;
 
 public class CalculatePrimeNumbers {
     public static ArrayList<Integer> calculate(Numbers numbers){
+        if(numbers.getNumber1()>numbers.getNumber2()){
+            int buffor;
+            buffor=numbers.getNumber1();
+            numbers.setNumber1(numbers.getNumber2());
+            numbers.setNumber2(buffor);
+        }
      ArrayList<Integer> primeNumbersList = new ArrayList<>();
         for (int i = numbers.getNumber1(); i < numbers.getNumber2(); i++) {
             boolean isPrime = true;

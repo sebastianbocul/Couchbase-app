@@ -57,14 +57,16 @@
             android:layout_weight="1"
             android:gravity="bottom"
             android:hint="from"
-            android:inputType="number" />
+            android:inputType="number"
+            android:id="@+id/number1"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="to"
-            android:inputType="number" />
+            android:inputType="number"
+            android:id="@+id/number2"/>
     </LinearLayout>
 
     <LinearLayout
