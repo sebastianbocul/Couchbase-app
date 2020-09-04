@@ -23,8 +23,6 @@ import com.sebix.couchbase_app.viewmodels.MainViewModel;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -82,7 +80,18 @@ public class MainFragment extends Fragment {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMainViewModel.getmNumbers();
+                if(mNumber1.getText()==null || mNumber1.getText().length()==0){
+                    Toast.makeText(getActivity(), "Fill all fields!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(mNumber2.getText()==null || mNumber2.getText().length()==0){
+                    Toast.makeText(getActivity(), "Fill all fields!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                int number1= Integer.parseInt(mNumber1.getText().toString().trim());
+                int number2= Integer.parseInt(mNumber2.getText().toString().trim());
+                Numbers numbers = new Numbers(number1,number2);
+                mMainViewModel.saveNumbers(numbers);
             }
         });
     }
@@ -96,12 +105,14 @@ public class MainFragment extends Fragment {
                 if (numbersResource != null) {
                     switch (numbersResource.status) {
                         case SUCCESS: {
+                            mNumber1.setText(String.valueOf(numbersResource.data.getNumber1()));
+                            mNumber2.setText(String.valueOf(numbersResource.data.getNumber2()));
                             Log.d(TAG, "onChanged: number1: " + numbersResource.data.getNumber1() + " number2: " + numbersResource.data.getNumber2());
-//                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mProgressBar.setVisibility(View.INVISIBLE);
                             break;
                         }
                         case LOADING:{
-//                            mProgressBar.setVisibility(View.VISIBLE);
+                            mProgressBar.setVisibility(View.VISIBLE);
                             break;
                         }
                         case ERROR: {

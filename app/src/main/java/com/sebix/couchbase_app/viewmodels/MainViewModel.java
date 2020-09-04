@@ -55,7 +55,7 @@ public class MainViewModel extends ViewModel {
         ArrayList<Integer> primeNumbersList = new ArrayList<Integer>();
         setPrimeNumbers(Resource.calculating(primeNumbersList));
 
-        //mozna zrobic debug/ production release zeby dodac handlery
+        //TODO:mozna zrobic debug/ production release zeby dodac handlery
         Single<Object> obs = Single.create(emitter -> {
             ArrayList<Integer> list = new ArrayList<>();
             list = CalculatePrimeNumbers.calculate(numbers);
@@ -85,5 +85,9 @@ public class MainViewModel extends ViewModel {
             }
         };
         obs.subscribe(singleObserver);
+    }
+
+    public void saveNumbers(Numbers numbers){
+        mMainRepository.saveNumbers(numbers);
     }
 }

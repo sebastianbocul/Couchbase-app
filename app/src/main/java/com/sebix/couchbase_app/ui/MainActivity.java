@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.couchbase.lite.CouchbaseLite;
 import com.sebix.couchbase_app.R;
-import com.sebix.couchbase_app.ui.MainFragment;
 
 import dagger.hilt.android.AndroidEntryPoint;
 

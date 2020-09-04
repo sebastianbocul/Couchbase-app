@@ -2,7 +2,6 @@ package com.sebix.couchbase_app.di;
 
 import android.app.Application;
 
-import com.couchbase.lite.CouchbaseLite;
 import com.sebix.couchbase_app.persistance.MainDatabase;
 import com.sebix.couchbase_app.repositories.MainRepository;
 

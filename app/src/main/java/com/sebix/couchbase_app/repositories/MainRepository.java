@@ -3,15 +3,10 @@ package com.sebix.couchbase_app.repositories;
 import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
-import com.couchbase.lite.Database;
 import com.sebix.couchbase_app.models.Numbers;
 import com.sebix.couchbase_app.persistance.MainDatabase;
 import com.sebix.couchbase_app.utils.Resource;
 import java.util.ArrayList;
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-
 
 public class MainRepository {
     MutableLiveData<Resource<Numbers>> mNumbers = new MutableLiveData<>();
@@ -21,7 +16,6 @@ public class MainRepository {
 
     public MainRepository(MainDatabase mainDatabase) {
         Log.d("MYLOG", "MainRepository: ");
-        mNumbers.postValue(Resource.success(new Numbers(0,1)));
         mPrimeNumbers.postValue(Resource.success(new ArrayList<Integer>()));
         this.mMainDatabase = mainDatabase;
     }
@@ -43,5 +37,9 @@ public class MainRepository {
         Log.d("MainFragment", "setmPrimeNumbers: " + mPrimeNumbersList.data.isEmpty());
         this.mPrimeNumbers.postValue(mPrimeNumbersList);
         Log.d("MainFragment", "setmPrimeNumbers: " + mPrimeNumbersList.data.size());
+    }
+
+    public void saveNumbers(Numbers numbers){
+        mMainDatabase.saveNumbers(numbers);
     }
 }
