@@ -49,7 +49,7 @@ public class MainFragment extends Fragment {
         mPrimeNumbersTextView=view.findViewById(R.id.prime_numbers);
         mCalculateButton=view.findViewById(R.id.calculate_button);
         mSaveButton = view.findViewById(R.id.save_button);
-        Log.d(TAG, "mProgressBar");
+        Log.d(TAG, "onViewCreated");
         mProgressBar = getActivity().findViewById(R.id.progress_bar);
         mNumber1 = view.findViewById(R.id.number1);
         mNumber2 = view.findViewById(R.id.number2);

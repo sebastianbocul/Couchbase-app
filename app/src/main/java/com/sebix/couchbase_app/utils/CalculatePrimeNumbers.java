@@ -5,7 +5,9 @@ import com.sebix.couchbase_app.models.Numbers;
 import java.util.ArrayList;
 
 public class CalculatePrimeNumbers {
-    public static ArrayList<Integer> calculate(Numbers numbers){
+
+    public static ArrayList<Integer> calculate(Numbers num){
+        Numbers numbers = new Numbers(num.getNumber1(),num.getNumber2());
         if(numbers.getNumber1()>numbers.getNumber2()){
             int buffor;
             buffor=numbers.getNumber1();
