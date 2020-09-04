@@ -32,7 +32,7 @@ public class MainFragment extends Fragment {
     public MainViewModel mMainViewModel;
     private static final String TAG = "MainFragment";
     private TextView mPrimeNumbersTextView, mNumber1, mNumber2;
-    private Button mCalculateButton;
+    private Button mCalculateButton,mSaveButton;
     private ProgressBar mProgressBar;
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -50,6 +50,7 @@ public class MainFragment extends Fragment {
         mMainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         mPrimeNumbersTextView=view.findViewById(R.id.prime_numbers);
         mCalculateButton=view.findViewById(R.id.calculate_button);
+        mSaveButton = view.findViewById(R.id.save_button);
         Log.d(TAG, "mProgressBar");
         mProgressBar = getActivity().findViewById(R.id.progress_bar);
         mNumber1 = view.findViewById(R.id.number1);
@@ -78,6 +79,12 @@ public class MainFragment extends Fragment {
             }
         });
 
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMainViewModel.getmNumbers();
+            }
+        });
     }
 
     private void setObservers() {

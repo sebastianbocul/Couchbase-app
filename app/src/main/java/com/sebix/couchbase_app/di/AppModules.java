@@ -1,5 +1,9 @@
 package com.sebix.couchbase_app.di;
 
+import android.app.Application;
+
+import com.couchbase.lite.CouchbaseLite;
+import com.sebix.couchbase_app.persistance.MainDatabase;
 import com.sebix.couchbase_app.repositories.MainRepository;
 
 import javax.inject.Singleton;
@@ -13,12 +17,13 @@ import dagger.hilt.android.components.ApplicationComponent;
 @InstallIn(ApplicationComponent.class)
 class AppModules {
 
-    //example
     @Singleton
     @Provides
-    public static MainRepository mainRepository(){
-        return new MainRepository();
-    }
+    public static MainDatabase mainDatabase(Application application) {return new MainDatabase(application);}
 
-    //we will need to init couchdatabase here
+    @Singleton
+    @Provides
+    public static MainRepository mainRepository(MainDatabase mainDatabase){
+        return new MainRepository(mainDatabase);
+    }
 }

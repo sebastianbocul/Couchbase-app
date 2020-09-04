@@ -6,4 +6,6 @@ public class Constants {
 //    public static final int TIMEOUT = 3000;
     public static final int timeDelay=0;
     public static final TimeUnit timeUnit = TimeUnit.SECONDS;
+
+    public static final String DB_NAME = "main_db";
 }

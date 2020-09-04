@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.sebix.couchbase_app"
-        minSdkVersion 16
+        minSdkVersion 22
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -64,6 +64,11 @@ dependencies {
     //rxjava
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.4'
+
+    //couchbase
+    def couch_version="2.6.0"
+    implementation "com.couchbase.lite:couchbase-lite-android-ee:${couch_version}"
+
 }
 kapt {
     correctErrorTypes = true
