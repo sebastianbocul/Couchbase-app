@@ -36,5 +36,6 @@ public class Resource<T> {
     public static <T> Resource<T> calculating(@Nullable T data) {
         return new Resource<>(Status.CALCULATING, data, null);
     }
+
     public enum Status {SUCCESS, ERROR, LOADING, EMPTY, CALCULATING}
 }

@@ -15,14 +15,15 @@ import dagger.hilt.android.components.ApplicationComponent;
 @Module
 @InstallIn(ApplicationComponent.class)
 class AppModules {
+    @Singleton
+    @Provides
+    public static MainDatabase mainDatabase(Application application) {
+        return new MainDatabase(application);
+    }
 
     @Singleton
     @Provides
-    public static MainDatabase mainDatabase(Application application) {return new MainDatabase(application);}
-
-    @Singleton
-    @Provides
-    public static MainRepository mainRepository(MainDatabase mainDatabase){
+    public static MainRepository mainRepository(MainDatabase mainDatabase) {
         return new MainRepository(mainDatabase);
     }
 }

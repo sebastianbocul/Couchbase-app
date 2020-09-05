@@ -19,26 +19,23 @@ public class MainRepository {
     public MainRepository(MainDatabase mainDatabase) {
         this.mMainDatabase = mainDatabase;
         mNumbers = mMainDatabase.getNumbers();
-//        Log.d(TAG, "MainRepository: " + mNumbers.getValue().data.toString());
-//        mPrimeNumbers.postValue(Resource.success(new ArrayList<Integer>()));
     }
 
-    public MutableLiveData<Resource<Numbers>> getmNumbers() {
+    public MutableLiveData<Resource<Numbers>> getNumbers() {
         return mNumbers;
     }
 
-    public void setmNumbers(Numbers mNumbers) {
+    public void setNumbers(Numbers mNumbers) {
         this.mNumbers.postValue(Resource.success(mNumbers));
     }
 
-    public MutableLiveData<Resource<ArrayList<Integer>>> getmPrimeNumbers() {
+    public MutableLiveData<Resource<ArrayList<Integer>>> getPrimeNumbers() {
         return mPrimeNumbers;
     }
 
-    public void setmPrimeNumbers(Resource<ArrayList<Integer>> mPrimeNumbersList) {
-        Log.d("MainFragment", "setmPrimeNumbers: " + mPrimeNumbersList.data.isEmpty());
-        this.mPrimeNumbers.postValue(mPrimeNumbersList);
-        Log.d("MainFragment", "setmPrimeNumbers: " + mPrimeNumbersList.data.size());
+    public void setPrimeNumbers(Resource<ArrayList<Integer>> primeNumbersList) {
+        this.mPrimeNumbers.postValue(primeNumbersList);
+        Log.d("MainFragment", "setmPrimeNumbers: " + primeNumbersList.data.size());
     }
 
     public void saveNumbers(Numbers numbers) {
