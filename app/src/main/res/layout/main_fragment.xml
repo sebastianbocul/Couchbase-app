@@ -4,23 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.MainFragment">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="bottom"
-        android:text="@string/prime_numbers"
-        android:textSize="30sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/prime_numbers"
-        android:textSize="30sp" />
+    tools:context=".ui.MainFragment"
+    android:id="@+id/main_fragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,7 +43,8 @@
             android:gravity="bottom"
             android:hint="from"
             android:inputType="number"
-            android:id="@+id/number1"/>
+            android:id="@+id/number1"
+            android:maxLength="9"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -66,7 +52,8 @@
             android:layout_weight="1"
             android:hint="to"
             android:inputType="number"
-            android:id="@+id/number2"/>
+            android:id="@+id/number2"
+            android:maxLength="9"/>
     </LinearLayout>
 
     <LinearLayout
@@ -90,4 +77,28 @@
             android:layout_weight="1"
             android:text="@string/save_button" />
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:text="@string/prime_numbers"
+        android:textSize="30sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/prime_numbers"
+        android:textSize="30sp" />
+
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/logo_calc_512px"
+        android:id="@+id/logo_small"/>
 </LinearLayout>

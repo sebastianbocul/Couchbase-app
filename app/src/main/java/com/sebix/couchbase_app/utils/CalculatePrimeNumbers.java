@@ -16,7 +16,7 @@ public class CalculatePrimeNumbers {
         ArrayList<Integer> primeNumbersList = new ArrayList<>();
         for (int i = numbers.getNumber1(); i < numbers.getNumber2(); i++) {
             boolean isPrime = true;
-            if (i == 1)
+            if (i == 1||i==0)
                 isPrime = false;
             else {
                 // check to see if the numbers are prime
@@ -35,7 +35,7 @@ public class CalculatePrimeNumbers {
 
     public static boolean checkIsPrime(int number) {
         boolean isPrime = true;
-        if (number == 1)
+        if (number == 1||number==0)
             isPrime = false;
         else {
             // check to see if the numbers are prime

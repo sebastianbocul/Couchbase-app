@@ -18,7 +18,7 @@ class NumbersTest {
     }
 
     @Test
-    void isNotesEqual_differentNumber2_returnFalse() throws Exception {
+    void isNotesNotEqual_differentNumber2_returnFalse() throws Exception {
         //Arrange
         Numbers numbers1 = new Numbers(1,2);
         Numbers numbers2 = new Numbers(1,10);
@@ -29,7 +29,7 @@ class NumbersTest {
     }
 
     @Test
-    void isNotesEqual_differentNumbers_returnFalse() throws Exception {
+    void isNotesNotEqual_differentNumbers_returnFalse() throws Exception {
         //Arrange
         Numbers numbers1 = new Numbers(1,2);
         Numbers numbers2 = new Numbers(5,3);

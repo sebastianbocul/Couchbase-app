@@ -54,7 +54,6 @@ public class MainFragment extends Fragment {
         mProgressBar = getActivity().findViewById(R.id.progress_bar);
         mNumber1 = view.findViewById(R.id.number1);
         mNumber2 = view.findViewById(R.id.number2);
-//        mProgressBar.setVisibility(View.VISIBLE);
         setListeners();
         setObservers();
     }
@@ -96,6 +95,7 @@ public class MainFragment extends Fragment {
                 }
                 int number1 = Integer.parseInt(mNumber1.getText().toString().trim());
                 int number2 = Integer.parseInt(mNumber2.getText().toString().trim());
+                Log.d(TAG, "onClick calculate :  n1:" +number1 + "   n2:" + number2 + "    -  " +(number1-number2));
                 Numbers numbers = new Numbers(number1, number2);
                 mMainViewModel.saveNumbers(numbers);
             }
