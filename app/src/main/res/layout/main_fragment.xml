@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.MainFragment"
-    android:id="@+id/main_fragment">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="100dp"
         android:gravity="bottom"
         android:orientation="horizontal"
         android:padding="5sp">
@@ -18,15 +18,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center"
             android:gravity="bottom"
-            android:text="from" />
+            android:text="Prime numbers calculator"
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="to" />
     </LinearLayout>
 
     <LinearLayout
@@ -37,23 +34,23 @@
         android:padding="5sp">
 
         <EditText
+            android:id="@+id/number1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="bottom"
             android:hint="from"
             android:inputType="number"
-            android:id="@+id/number1"
-            android:maxLength="9"/>
+            android:maxLength="9" />
 
         <EditText
+            android:id="@+id/number2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="to"
             android:inputType="number"
-            android:id="@+id/number2"
-            android:maxLength="9"/>
+            android:maxLength="9" />
     </LinearLayout>
 
     <LinearLayout
@@ -77,28 +74,35 @@
             android:layout_weight="1"
             android:text="@string/save_button" />
     </LinearLayout>
+
     <TextView
+        android:paddingTop="20sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="1"
         android:gravity="bottom"
         android:text="@string/prime_numbers"
         android:textSize="30sp" />
 
     <TextView
+        android:id="@+id/prime_numbers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:id="@+id/prime_numbers"
         android:textSize="30sp" />
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="449dp"
+        android:layout_gravity="bottom|center"
+        android:gravity="bottom|center">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/logo_calc_512px"
-        android:id="@+id/logo_small"/>
+        <ImageView
+            android:id="@+id/logo_small"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/logo_calc_512px" />
+    </RelativeLayout>
 </LinearLayout>

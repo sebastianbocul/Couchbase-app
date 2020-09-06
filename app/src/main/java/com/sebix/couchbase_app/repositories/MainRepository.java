@@ -39,6 +39,7 @@ public class MainRepository {
     }
 
     public void saveNumbers(Numbers numbers) {
+        setNumbers(numbers);
         mMainDatabase.saveNumbers(numbers);
     }
 }

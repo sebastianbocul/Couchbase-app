@@ -1,6 +1,7 @@
 package com.sebix.couchbase_app.ui
 
 import android.util.Log
+import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.*
@@ -15,8 +16,7 @@ import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.pinder.app.util.RepeatRule
 import com.pinder.app.util.RepeatTest
 import com.sebix.couchbase_app.R
-import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.endsWith
+import org.hamcrest.Matchers.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,7 +36,6 @@ class MainFragmentManagerTest {
     @RepeatTest(1)
     fun test_start_componentsDisplayed() {
         Thread.sleep(100)
-
         onView(withId(R.id.main_fragment)).check(matches(isDisplayed()))
         onView(withId(R.id.number1)).check(matches(isDisplayed()))
         onView(withId(R.id.number2)).check(matches(isDisplayed()))
@@ -46,11 +45,11 @@ class MainFragmentManagerTest {
     }
 
     @Test
-    @RepeatTest(10)
-    fun test_addNumbersToDb_restartActivity_checkIfNewDataLoaded() {
-        val n1 = Random(100000)
-        val n2 = Random(100000)
-        Thread.sleep(100)
+    @RepeatTest(3)
+    fun test_addNumbers_clickSave_restartActivity_checkIfDataLoaded() {
+        val n1 = Random.nextInt(0,1000000)
+        val n2 = Random.nextInt(0,1000000)
+        Thread.sleep(1000)
         onView(withId(R.id.number1)).perform(click())
         onView(withId(R.id.number1)).perform(clearText())
         onView(withId(R.id.number1)).perform(typeText(n1.toString()))
@@ -59,20 +58,62 @@ class MainFragmentManagerTest {
         onView(withId(R.id.number2)).perform(clearText())
         onView(withId(R.id.number2)).perform(typeText(n2.toString()))
 
-        onView(withText(R.string.save_button)).perform(click())
+
         Thread.sleep(1000)
-        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
-        Thread.sleep(5000)
-        Log.d("TEST LOG", "test_addNumbersToDb_restartActivity_checkIfNewDataLoaded: ${n1.toString()}" )
-//        onView(withId(R.id.number1)).perform(equals())
-//        onView(allOf(withId(R.id.main_fragment))).check(matches(isEditTextValueEqualTo(R.id.edtPass, mStringToBetyped)));
+        onView(withText(R.string.save_button)).perform(click())
+
+        Thread.sleep(500)
+        restartActivity()
+        Thread.sleep(500)
+
+        onView(withText(n1.toString())).check(matches(isDisplayed()));
+        onView(withText(n2.toString())).check(matches(isDisplayed()));
+    }
+
+
+    @Test
+    @RepeatTest(3)
+    fun test_addNumbers_clickCalculate_checkProgressBarDisplayed_clickCancel_checkIfProgressBarNotDisplayed() {
+        val n1 = 0
+        val n2 = 999999
+        Thread.sleep(1000)
+        onView(withId(R.id.number1)).perform(click())
+        onView(withId(R.id.number1)).perform(clearText())
+        onView(withId(R.id.number1)).perform(typeText(n1.toString()))
+
         onView(withId(R.id.number2)).perform(click())
         onView(withId(R.id.number2)).perform(clearText())
-        onView(withId(R.id.number2)).perform(typeText(n1.toString()))
-        Thread.sleep(5000)
+        onView(withId(R.id.number2)).perform(typeText(n2.toString()))
 
-        onView(withId(R.id.number1)).check(matches(withText(n1.toString())))
-//        onView(allOf(withText(endsWith(n1.toString())))).check(matches(isDisplayed()));
-//        onView(withText(n2.toString())).check(matches(isDisplayed()));
+        onView(withText(R.string.calculate_button)).check(matches(isDisplayed()))
+        onView(withText(R.string.cancel_button)).check(doesNotExist())
+
+        onView(withId(R.id.progress_bar)).check(matches(not(isDisplayed())))
+
+
+        Thread.sleep(1000)
+        onView(withText(R.string.calculate_button)).perform(click())
+        Thread.sleep(500)
+        onView(withText(R.string.calculate_button)).check(doesNotExist())
+        onView(withText(R.string.cancel_button)).check(matches(isDisplayed()))
+        onView(withId(R.id.progress_bar)).check(matches(isDisplayed()))
+
+        Thread.sleep(500)
+        onView(withText(R.string.cancel_button)).perform(click())
+        Thread.sleep(3000)
+
+        onView(withText(R.string.calculate_button)).check(matches(isDisplayed()))
+        onView(withText(R.string.cancel_button)).check(doesNotExist())
+        onView(withId(R.id.progress_bar)).check(matches(not(isDisplayed())))
+    }
+
+
+
+
+
+    fun restartActivity() {
+        var scenario = activityScenarioRule.getScenario()
+        scenario.moveToState(Lifecycle.State.RESUMED)
+        scenario.recreate()
     }
 }

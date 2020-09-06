@@ -142,7 +142,7 @@ public class MainFragment extends Fragment {
                         case SUCCESS: {
                             mCalculateButton.setText(R.string.calculate_button);
                             Log.d(TAG, "onChanged getPrimeNumbers: arraySize: " + arrayListResource.data.size());
-                            mProgressBar.setVisibility(View.INVISIBLE);
+                            mProgressBar.setVisibility(View.GONE);
                             mPrimeNumbersTextView.setText(String.valueOf(arrayListResource.data.size()));
                             break;
                         }

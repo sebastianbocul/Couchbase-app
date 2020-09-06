@@ -13,6 +13,7 @@ import com.sebix.couchbase_app.utils.Constants;
 import com.sebix.couchbase_app.utils.Resource;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Single;
@@ -56,36 +57,6 @@ public class MainViewModel extends ViewModel {
         Log.d(TAG, "SEND LOADING MESS");
         ArrayList<Integer> primeNumbersList = new ArrayList<Integer>();
         setPrimeNumbers(Resource.calculating(primeNumbersList));
-//        //TODO:mozna zrobic debug/ production release zeby dodac handlery
-//        Single<Object> obs = Single.create(emitter -> {
-//            ArrayList<Integer> list = new ArrayList<>();
-//            list = CalculatePrimeNumbers.calculate(numbers);
-//            emitter.onSuccess(list);
-//            emitter.setCancellable(new Cancellable() {
-//                @Override
-//                public void cancel() throws Exception {
-//                    //clean memory
-//                }
-//            });
-//        })
-//                .delaySubscription(Constants.timeDelay, Constants.timeUnit)
-//                .subscribeOn(Schedulers.io());
-//        SingleObserver<Object> singleObserver = new SingleObserver<Object>() {
-//            @Override
-//            public void onSubscribe(@NonNull Disposable d) {
-//            }
-//
-//            @Override
-//            public void onSuccess(@NonNull Object o) {
-//                Log.d("MainFragment", "onSuccess: RxJava" + o.toString());
-//                setPrimeNumbers(Resource.success((ArrayList<Integer>) o));
-//            }
-//
-//            @Override
-//            public void onError(@NonNull Throwable e) {
-//            }
-//        };
-//        obs.subscribe(singleObserver);
         ///////////////new
         mCancel = false;
         Log.d(TAG, "calculateAndUpdate: " + mCancel);
@@ -128,7 +99,6 @@ public class MainViewModel extends ViewModel {
             }
         };
         obs.subscribe(singleObserver);
-        obs.unsubscribeOn(Schedulers.io());
     }
 
     public void saveNumbers(Numbers numbers) {

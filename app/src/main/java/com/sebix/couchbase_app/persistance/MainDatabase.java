@@ -30,11 +30,10 @@ public class MainDatabase {
 
     public MainDatabase(Application application) {
         this.mApplication = application;
-        Log.d(TAG, "MainDatabase constructor: ");
         init();
     }
 
-    private void init() {
+    public void init() {
         // Initialize the Couchbase Lite system
         CouchbaseLite.init(mApplication);
         // Get the database (if exists)

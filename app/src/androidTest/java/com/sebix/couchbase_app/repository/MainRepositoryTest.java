@@ -1,34 +1,35 @@
-package com.sebix.couchbase_app.repositories;
+package com.sebix.couchbase_app.repository;
+
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 
 import com.sebix.couchbase_app.models.Numbers;
 import com.sebix.couchbase_app.persistance.MainDatabase;
-import com.sebix.couchbase_app.utils.InstantExecutorExtension;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@ExtendWith({InstantExecutorExtension.class})
+@RunWith(AndroidJUnit4ClassRunner.class)
 class MainRepositoryTest {
     //system under test
-    private MainRepository mainRepository;
     private MainDatabase mainDatabase;
 
+    @Rule
+    public InstantTaskExecutorRule rule = new InstantTaskExecutorRule();
 
     @BeforeEach
     public void init(){
-        mainDatabase = mock(MainDatabase.class);
-        mainRepository = new MainRepository(mainDatabase);
+        mainDatabase = new MainDatabase(ApplicationProvider.getApplicationContext());
     }
 
     @Test
     void init_notNull() throws Exception {
         assertNotNull(mainDatabase);
-        assertNotNull(mainRepository);
     }
 
     @Test
