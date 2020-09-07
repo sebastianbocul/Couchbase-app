@@ -13,7 +13,6 @@ import com.sebix.couchbase_app.utils.Constants;
 import com.sebix.couchbase_app.utils.Resource;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Single;
@@ -24,7 +23,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MainViewModel extends ViewModel {
     private static final String TAG = "MainViewModel";
     private MainRepository mMainRepository;
-    private boolean mCancel = false;
 
     @ViewModelInject
     public MainViewModel(MainRepository mMainRepository) {
@@ -49,7 +47,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public void setCancel(boolean cancel) {
-        mCancel = cancel;
+        mMainRepository.setCancel(cancel);
     }
 
     public void calculateAndUpdate(Numbers numbers) {
@@ -58,8 +56,8 @@ public class MainViewModel extends ViewModel {
         ArrayList<Integer> primeNumbersList = new ArrayList<Integer>();
         setPrimeNumbers(Resource.calculating(primeNumbersList));
         ///////////////new
-        mCancel = false;
-        Log.d(TAG, "calculateAndUpdate: " + mCancel);
+        mMainRepository.setCancel(false);
+        Log.d(TAG, "calculateAndUpdate: " + mMainRepository.getCancel());
         Single<Object> obs = Single.create(emitter -> {
             Numbers listNumbers = new Numbers(numbers.getNumber1(), numbers.getNumber2());
             if (listNumbers.getNumber1() > listNumbers.getNumber2()) {
@@ -70,7 +68,7 @@ public class MainViewModel extends ViewModel {
             }
             ArrayList<Integer> listPrime = new ArrayList<>();
             for (int i = listNumbers.getNumber1(); i < listNumbers.getNumber2(); i++) {
-                if (!mCancel) {
+                if (!mMainRepository.getCancel()) {
                     if (CalculatePrimeNumbers.checkIsPrime(i)) {
                         listPrime.add(i);
                     }

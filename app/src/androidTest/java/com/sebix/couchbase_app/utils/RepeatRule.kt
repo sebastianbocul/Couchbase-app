@@ -1,4 +1,4 @@
-package com.pinder.app.util
+package com.sebix.couchbase_app.utils
 
 import org.junit.rules.TestRule
 import org.junit.runner.Description

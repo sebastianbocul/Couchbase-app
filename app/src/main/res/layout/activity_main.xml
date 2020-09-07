@@ -23,6 +23,7 @@
             android:gravity="center"
             android:scaleX="0.3"
             android:scaleY="0.3"
-            android:visibility="gone" />
+            android:visibility="gone"
+            android:layout_marginTop="100dp"/>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

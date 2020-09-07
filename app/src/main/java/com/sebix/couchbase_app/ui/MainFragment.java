@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.sebix.couchbase_app.R;
 import com.sebix.couchbase_app.models.Numbers;
 import com.sebix.couchbase_app.utils.Resource;
@@ -30,8 +33,10 @@ public class MainFragment extends Fragment {
     private static final String TAG = "MainFragment";
     public MainViewModel mMainViewModel;
     private TextView mPrimeNumbersTextView, mNumber1, mNumber2;
-    private Button mCalculateButton, mSaveButton;
+    private Button mCalculateButton;
+    private FloatingActionButton mSaveButton;
     private ProgressBar mProgressBar;
+    private ImageView mLogo;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -54,6 +59,7 @@ public class MainFragment extends Fragment {
         mProgressBar = getActivity().findViewById(R.id.progress_bar);
         mNumber1 = view.findViewById(R.id.number1);
         mNumber2 = view.findViewById(R.id.number2);
+        mLogo = view.findViewById(R.id.logo_small);
         setListeners();
         setObservers();
     }
@@ -63,11 +69,11 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (mCalculateButton.getText().toString().equals(getString(R.string.cancel_button))) {
-                    Log.d("MainViewModel", "onClick: cancel ");
+                    Log.d(TAG, "onClick: cancel ");
                     mMainViewModel.setCancel(true);
                     return;
                 }
-                Log.d("MainViewModel", "onClick: calculate ");
+                Log.d(TAG, "onClick: calculate ");
                 if (mNumber1.getText() == null || mNumber1.getText().length() == 0) {
                     Toast.makeText(getActivity(), "Fill all fields!", Toast.LENGTH_SHORT).show();
                     return;
@@ -82,28 +88,32 @@ public class MainFragment extends Fragment {
                 mMainViewModel.calculateAndUpdate(numbers);
             }
         });
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
+        mSaveButton.setOnClickListener(v -> {
+            if (mNumber1.getText() == null || mNumber1.getText().length() == 0) {
+                Toast.makeText(getActivity(), "Fill all fields!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (mNumber2.getText() == null || mNumber2.getText().length() == 0) {
+                Toast.makeText(getActivity(), "Fill all fields!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            int number1 = Integer.parseInt(mNumber1.getText().toString().trim());
+            int number2 = Integer.parseInt(mNumber2.getText().toString().trim());
+            Log.d(TAG, "onClick calculate :  n1:" + number1 + "   n2:" + number2 + "    -  " + (number1 - number2));
+            Numbers numbers = new Numbers(number1, number2);
+            mMainViewModel.saveNumbers(numbers);
+            Toast.makeText(getContext(), "Data saved!", Toast.LENGTH_SHORT).show();
+        });
+        mLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mNumber1.getText() == null || mNumber1.getText().length() == 0) {
-                    Toast.makeText(getActivity(), "Fill all fields!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (mNumber2.getText() == null || mNumber2.getText().length() == 0) {
-                    Toast.makeText(getActivity(), "Fill all fields!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                int number1 = Integer.parseInt(mNumber1.getText().toString().trim());
-                int number2 = Integer.parseInt(mNumber2.getText().toString().trim());
-                Log.d(TAG, "onClick calculate :  n1:" +number1 + "   n2:" + number2 + "    -  " +(number1-number2));
-                Numbers numbers = new Numbers(number1, number2);
-                mMainViewModel.saveNumbers(numbers);
+                Snackbar.make(v, "This is demonstration version :)", 1000).show();
             }
         });
     }
 
     private void setObservers() {
-        Log.d("MYLOG", "setObservers: ");
+        Log.d(TAG, "setObservers: ");
         mMainViewModel.getNumbers().observe(getViewLifecycleOwner(), new Observer<Resource<Numbers>>() {
             @Override
             public void onChanged(Resource<Numbers> numbersResource) {
@@ -165,5 +175,35 @@ public class MainFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        if (mNumber1.getText() == null) {
+            return;
+        }
+        if (mNumber2.getText() == null) {
+            return;
+        }
+        int number1;
+        int number2;
+        if (mNumber1.getText().length() == 0) {
+            number1 = 0;
+        } else {
+            number1 = Integer.parseInt(mNumber1.getText().toString().trim());
+        }
+        if (mNumber2.getText().length() == 0) {
+            number2 = 0;
+        } else {
+            number2 = Integer.parseInt(mNumber2.getText().toString().trim());
+        }
+        Numbers numbers = new Numbers(number1, number2);
+        mMainViewModel.setNumbers(numbers);
+        super.onDetach();
     }
 }

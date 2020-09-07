@@ -12,9 +12,10 @@ import java.util.ArrayList;
 
 public class MainRepository {
     private static final String TAG = "MainRepository";
-    MutableLiveData<Resource<Numbers>> mNumbers = new MutableLiveData<>();
+    MutableLiveData<Resource<Numbers>> mNumbers;
     MutableLiveData<Resource<ArrayList<Integer>>> mPrimeNumbers = new MutableLiveData<>();
     MainDatabase mMainDatabase;
+    private boolean mCancel = false;
 
     public MainRepository(MainDatabase mainDatabase) {
         this.mMainDatabase = mainDatabase;
@@ -35,11 +36,19 @@ public class MainRepository {
 
     public void setPrimeNumbers(Resource<ArrayList<Integer>> primeNumbersList) {
         this.mPrimeNumbers.postValue(primeNumbersList);
-        Log.d("MainFragment", "setmPrimeNumbers: " + primeNumbersList.data.size());
+        Log.d(TAG, "setmPrimeNumbers: " + primeNumbersList.data.size());
     }
 
     public void saveNumbers(Numbers numbers) {
         setNumbers(numbers);
         mMainDatabase.saveNumbers(numbers);
+    }
+
+    public void setCancel(boolean cancel) {
+        mCancel = cancel;
+    }
+
+    public boolean getCancel() {
+        return mCancel;
     }
 }

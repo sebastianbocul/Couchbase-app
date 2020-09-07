@@ -1,4 +1,4 @@
-package com.pinder.app.util
+package com.sebix.couchbase_app.utils
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.ANNOTATION_CLASS)

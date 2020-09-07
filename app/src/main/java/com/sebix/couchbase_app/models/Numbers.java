@@ -1,9 +1,7 @@
 package com.sebix.couchbase_app.models;
 
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
-
 import java.util.Objects;
 
 public class Numbers {

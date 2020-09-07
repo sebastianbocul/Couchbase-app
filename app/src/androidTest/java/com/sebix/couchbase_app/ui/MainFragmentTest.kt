@@ -1,26 +1,20 @@
 package com.sebix.couchbase_app.ui
 
-import android.util.Log
 import androidx.lifecycle.Lifecycle
-import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.Espresso.*
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.assertion.ViewAssertions.*
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import com.pinder.app.util.RepeatRule
-import com.pinder.app.util.RepeatTest
+import com.sebix.couchbase_app.utils.RepeatRule
+import com.sebix.couchbase_app.utils.RepeatTest
 import com.sebix.couchbase_app.R
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.regex.Matcher
 import kotlin.random.Random
 
 @RunWith(AndroidJUnit4ClassRunner::class)
@@ -47,8 +41,8 @@ class MainFragmentManagerTest {
     @Test
     @RepeatTest(3)
     fun test_addNumbers_clickSave_restartActivity_checkIfDataLoaded() {
-        val n1 = Random.nextInt(0,1000000)
-        val n2 = Random.nextInt(0,1000000)
+        val n1 = Random.nextInt(0, 1000000)
+        val n2 = Random.nextInt(0, 1000000)
         Thread.sleep(1000)
         onView(withId(R.id.number1)).perform(click())
         onView(withId(R.id.number1)).perform(clearText())
@@ -58,9 +52,8 @@ class MainFragmentManagerTest {
         onView(withId(R.id.number2)).perform(clearText())
         onView(withId(R.id.number2)).perform(typeText(n2.toString()))
 
-
         Thread.sleep(1000)
-        onView(withText(R.string.save_button)).perform(click())
+        onView(withId(R.id.save_button)).perform(click())
 
         Thread.sleep(500)
         restartActivity()
@@ -69,7 +62,6 @@ class MainFragmentManagerTest {
         onView(withText(n1.toString())).check(matches(isDisplayed()));
         onView(withText(n2.toString())).check(matches(isDisplayed()));
     }
-
 
     @Test
     @RepeatTest(3)
@@ -90,7 +82,6 @@ class MainFragmentManagerTest {
 
         onView(withId(R.id.progress_bar)).check(matches(not(isDisplayed())))
 
-
         Thread.sleep(1000)
         onView(withText(R.string.calculate_button)).perform(click())
         Thread.sleep(500)
@@ -106,10 +97,6 @@ class MainFragmentManagerTest {
         onView(withText(R.string.cancel_button)).check(doesNotExist())
         onView(withId(R.id.progress_bar)).check(matches(not(isDisplayed())))
     }
-
-
-
-
 
     fun restartActivity() {
         var scenario = activityScenarioRule.getScenario()
