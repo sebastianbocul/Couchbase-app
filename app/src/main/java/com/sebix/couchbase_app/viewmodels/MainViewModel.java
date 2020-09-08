@@ -55,7 +55,7 @@ public class MainViewModel extends ViewModel {
         Log.d(TAG, "SEND LOADING MESS");
         ArrayList<Integer> primeNumbersList = new ArrayList<Integer>();
         setPrimeNumbers(Resource.calculating(primeNumbersList));
-        ///////////////new
+
         mMainRepository.setCancel(false);
         Log.d(TAG, "calculateAndUpdate: " + mMainRepository.getCancel());
         Single<Object> obs = Single.create(emitter -> {

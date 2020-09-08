@@ -178,11 +178,6 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void onDetach() {
         if (mNumber1.getText() == null) {
             return;

@@ -58,6 +58,9 @@ public class MainDatabase {
     }
 
     public void saveNumbers(Numbers numbers) {
+        if(numbers.getNumber1()<0 || numbers.getNumber2()<0){
+            return;
+        }
         try {
             Log.d(TAG, "saveNumbers: " + numbers.toString());
             MutableDocument mutableDoc = new MutableDocument("mydoc")

@@ -27,7 +27,7 @@ class MainFragmentManagerTest {
     var activityScenarioRule = activityScenarioRule<MainActivity>()
 
     @Test
-    @RepeatTest(1)
+    @RepeatTest(3)
     fun test_start_componentsDisplayed() {
         Thread.sleep(100)
         onView(withId(R.id.main_fragment)).check(matches(isDisplayed()))
@@ -39,7 +39,7 @@ class MainFragmentManagerTest {
     }
 
     @Test
-    @RepeatTest(3)
+    @RepeatTest(5)
     fun test_addNumbers_clickSave_restartActivity_checkIfDataLoaded() {
         val n1 = Random.nextInt(0, 1000000)
         val n2 = Random.nextInt(0, 1000000)
@@ -64,7 +64,7 @@ class MainFragmentManagerTest {
     }
 
     @Test
-    @RepeatTest(3)
+    @RepeatTest(5)
     fun test_addNumbers_clickCalculate_checkProgressBarDisplayed_clickCancel_checkIfProgressBarNotDisplayed() {
         val n1 = 0
         val n2 = 999999

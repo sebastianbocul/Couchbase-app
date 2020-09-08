@@ -5,5 +5,4 @@
     <string name="save_button">Save</string>
     <string name="prime_numbers">Amount of prime numbers</string>
     <string name="title_activity_splash">SplashActivity</string>
-    <!-- Strings used for fragments for navigation -->
 </resources>

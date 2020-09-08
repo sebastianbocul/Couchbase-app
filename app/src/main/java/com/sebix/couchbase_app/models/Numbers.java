@@ -1,7 +1,5 @@
 package com.sebix.couchbase_app.models;
 
-import android.os.Build;
-import androidx.annotation.RequiresApi;
 import java.util.Objects;
 
 public class Numbers {
@@ -41,7 +39,6 @@ public class Numbers {
                 number2 == numbers.number2;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int hashCode() {
         return Objects.hash(number1, number2);

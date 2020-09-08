@@ -12,18 +12,26 @@ import java.util.ArrayList;
 
 public class MainRepository {
     private static final String TAG = "MainRepository";
-    MutableLiveData<Resource<Numbers>> mNumbers;
-    MutableLiveData<Resource<ArrayList<Integer>>> mPrimeNumbers = new MutableLiveData<>();
-    MainDatabase mMainDatabase;
+    private MutableLiveData<Resource<Numbers>> mNumbers;
+    private MutableLiveData<Resource<ArrayList<Integer>>> mPrimeNumbers = new MutableLiveData<>();
+    private MainDatabase mMainDatabase;
     private boolean mCancel = false;
 
     public MainRepository(MainDatabase mainDatabase) {
         this.mMainDatabase = mainDatabase;
-        mNumbers = mMainDatabase.getNumbers();
+        this.mNumbers = getNumbersFromDb();
+    }
+
+    public MutableLiveData<Resource<Numbers>> getNumbersFromDb() {
+        return mMainDatabase.getNumbers();
     }
 
     public MutableLiveData<Resource<Numbers>> getNumbers() {
         return mNumbers;
+    }
+
+    public void setNumbersLD(MutableLiveData<Resource<Numbers>> mNumbers) {
+        this.mNumbers = mNumbers;
     }
 
     public void setNumbers(Numbers mNumbers) {
