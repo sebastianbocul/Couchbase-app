@@ -41,34 +41,33 @@ class MainViewModelTest {
     @Test
     void test_getNumbers_returnTrue() {
         //Assign
-        Numbers numbers = new Numbers(1,10);
+        Numbers numbers = new Numbers(1, 10);
         MutableLiveData<Resource<Numbers>> numbersLD = new MutableLiveData<>(Resource.success(numbers));
         when(mainRepository.getNumbers()).thenReturn(numbersLD);
         //Act
         MutableLiveData<Resource<Numbers>> returnedData = mainRepository.getNumbers();
         //Assert
-        assertEquals(numbersLD,returnedData);
+        assertEquals(numbersLD, returnedData);
     }
-
 
     @Test
     void test_getPrimeNumbers_returnTrue() {
         //Assign
-        ArrayList<Integer> arrayList = new ArrayList<>(Arrays.asList(2,3,5,7));
+        ArrayList<Integer> arrayList = new ArrayList<>(Arrays.asList(2, 3, 5, 7));
         MutableLiveData<Resource<ArrayList<Integer>>> primeNumbersLD = new MutableLiveData<>();
         primeNumbersLD.setValue(Resource.success(arrayList));
         when(mainRepository.getPrimeNumbers()).thenReturn(primeNumbersLD);
         //Act
         MutableLiveData<Resource<ArrayList<Integer>>> returnedData = mainRepository.getPrimeNumbers();
         //Assert
-        assertEquals(primeNumbersLD,returnedData);
+        assertEquals(primeNumbersLD, returnedData);
     }
 
     @Test
     void test_calculateAndUpdate_returnTrue() {
         //Assign
-        Numbers numbers = new Numbers(1,10);
-        ArrayList<Integer> arrayList = new ArrayList<>(Arrays.asList(2,3,5,7));
+        Numbers numbers = new Numbers(1, 10);
+        ArrayList<Integer> arrayList = new ArrayList<>(Arrays.asList(2, 3, 5, 7));
         MutableLiveData<Resource<ArrayList<Integer>>> primeNumbersLD = new MutableLiveData<>();
         primeNumbersLD.setValue(Resource.success(arrayList));
         //calculations are saved directly to mainRepository
@@ -78,7 +77,6 @@ class MainViewModelTest {
         when(mainDatabase.getNumbers()).thenReturn(startData);
         MainRepository containerMainRepository = new MainRepository(mainDatabase);
         mainViewModel = new MainViewModel(containerMainRepository);
-
         //Act
         mainViewModel.calculateAndUpdate(numbers);
         try {
@@ -89,7 +87,7 @@ class MainViewModelTest {
         MutableLiveData<Resource<ArrayList<Integer>>> returnedData = containerMainRepository.getPrimeNumbers();
         Numbers returnedNumbers = containerMainRepository.getNumbers().getValue().data;
         //Assert
-        assertEquals(primeNumbersLD.getValue(),returnedData.getValue());
-        assertEquals(numbers,returnedNumbers);
+        assertEquals(primeNumbersLD.getValue(), returnedData.getValue());
+        assertEquals(numbers, returnedNumbers);
     }
 }

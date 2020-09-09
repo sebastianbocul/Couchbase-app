@@ -5,18 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.SplashActivity"
-    android:id="@+id/activity_splash">
+    android:id="@+id/activity_splash"
+    android:background="@color/mainBackground">
 
     <RelativeLayout
+        android:id="@+id/relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:id="@+id/relative_layout">
-    <ImageView
-        android:id="@+id/image_logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/logo_calc_512px"/>
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/image_logo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/logo_calc_512px" />
     </RelativeLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

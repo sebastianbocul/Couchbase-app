@@ -1,5 +1,6 @@
 package com.sebix.couchbase_app.ui;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,15 +30,20 @@ import java.util.ArrayList;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
+import static android.content.Context.MODE_PRIVATE;
+
 @AndroidEntryPoint
 public class MainFragment extends Fragment {
     private static final String TAG = "MainFragment";
     public MainViewModel mMainViewModel;
     private TextView mPrimeNumbersTextView, mNumber1, mNumber2;
     private Button mCalculateButton;
-    private FloatingActionButton mSaveButton;
+    private FloatingActionButton mSaveButton, mChangeMode;
     private ProgressBar mProgressBar;
     private ImageView mLogo;
+    private boolean mNightMode;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -55,11 +62,15 @@ public class MainFragment extends Fragment {
         mPrimeNumbersTextView = view.findViewById(R.id.prime_numbers);
         mCalculateButton = view.findViewById(R.id.calculate_button);
         mSaveButton = view.findViewById(R.id.save_button);
+        mChangeMode = view.findViewById(R.id.mode_button);
         Log.d(TAG, "onViewCreated");
         mProgressBar = getActivity().findViewById(R.id.progress_bar);
         mNumber1 = view.findViewById(R.id.number1);
         mNumber2 = view.findViewById(R.id.number2);
         mLogo = view.findViewById(R.id.logo_small);
+        mSharedPreferences = getActivity().getSharedPreferences("nightmode", MODE_PRIVATE);
+        mNightMode = mSharedPreferences.getBoolean("nightmode", false);
+        mEditor = mSharedPreferences.edit();
         setListeners();
         setObservers();
     }
@@ -108,6 +119,22 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Snackbar.make(v, "This is demonstration version :)", 1000).show();
+            }
+        });
+        mChangeMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mNightMode) {
+                    mNightMode = false;
+                    mEditor.putBoolean("nightmode", mNightMode);
+                    mEditor.apply();
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                } else {
+                    mNightMode = true;
+                    mEditor.putBoolean("nightmode", mNightMode);
+                    mEditor.apply();
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                }
             }
         });
     }

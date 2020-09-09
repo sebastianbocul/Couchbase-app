@@ -8,6 +8,7 @@ import com.sebix.couchbase_app.models.Numbers;
 import com.sebix.couchbase_app.repositories.MainRepository;
 import com.sebix.couchbase_app.utils.CalculatePrimeNumbers;
 import com.sebix.couchbase_app.utils.Constants;
+import com.sebix.couchbase_app.utils.EspressoIdlingResource;
 import com.sebix.couchbase_app.utils.Resource;
 
 import java.util.ArrayList;
@@ -50,6 +51,8 @@ public class MainViewModel extends ViewModel {
     }
 
     public void calculateAndUpdate(Numbers numbers) {
+        EspressoIdlingResource.INSTANCE.increment();
+
         setNumbers(numbers);
         ArrayList<Integer> primeNumbersList = new ArrayList<Integer>();
         setPrimeNumbers(Resource.calculating(primeNumbersList));
@@ -86,6 +89,7 @@ public class MainViewModel extends ViewModel {
             @Override
             public void onSuccess(@NonNull Object o) {
                 setPrimeNumbers(Resource.success((ArrayList<Integer>) o));
+                EspressoIdlingResource.INSTANCE.decrement();
             }
 
             @Override

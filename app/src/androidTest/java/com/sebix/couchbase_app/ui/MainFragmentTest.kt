@@ -1,21 +1,31 @@
 package com.sebix.couchbase_app.ui
 
+import android.widget.EditText
+import android.widget.TextView
+import androidx.annotation.ColorRes
 import androidx.lifecycle.Lifecycle
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import androidx.test.internal.util.Checks
+import com.sebix.couchbase_app.R
+import com.sebix.couchbase_app.utils.EspressoIdlingResource
 import com.sebix.couchbase_app.utils.RepeatRule
 import com.sebix.couchbase_app.utils.RepeatTest
-import com.sebix.couchbase_app.R
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.Description
 import org.junit.runner.RunWith
 import kotlin.random.Random
+
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 class MainFragmentManagerTest {
@@ -52,7 +62,7 @@ class MainFragmentManagerTest {
         onView(withId(R.id.number2)).perform(clearText())
         onView(withId(R.id.number2)).perform(typeText(n2.toString()))
 
-        Thread.sleep(1000)
+        Thread.sleep(500)
         onView(withId(R.id.save_button)).perform(click())
 
         Thread.sleep(500)
@@ -82,7 +92,7 @@ class MainFragmentManagerTest {
 
         onView(withId(R.id.progress_bar)).check(matches(not(isDisplayed())))
 
-        Thread.sleep(1000)
+        Thread.sleep(500)
         onView(withText(R.string.calculate_button)).perform(click())
         Thread.sleep(500)
         onView(withText(R.string.calculate_button)).check(doesNotExist())
@@ -91,11 +101,40 @@ class MainFragmentManagerTest {
 
         Thread.sleep(500)
         onView(withText(R.string.cancel_button)).perform(click())
-        Thread.sleep(3000)
+        Thread.sleep(500)
 
         onView(withText(R.string.calculate_button)).check(matches(isDisplayed()))
         onView(withText(R.string.cancel_button)).check(doesNotExist())
         onView(withId(R.id.progress_bar)).check(matches(not(isDisplayed())))
+    }
+
+    @Test
+    @RepeatTest(10)
+    fun test_addNumbers_clickCalculate_waitTillComplete_checkIfProgressBarNotDisplayed() {
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
+        val n1 = Random.nextInt(0, 100000)
+        val n2 = Random.nextInt(0, 100000)
+        Thread.sleep(1000)
+        onView(withId(R.id.number1)).perform(click())
+        onView(withId(R.id.number1)).perform(clearText())
+        onView(withId(R.id.number1)).perform(typeText(n1.toString()))
+
+        onView(withId(R.id.number2)).perform(click())
+        onView(withId(R.id.number2)).perform(clearText())
+        onView(withId(R.id.number2)).perform(typeText(n2.toString()))
+
+        onView(withText(R.string.calculate_button)).check(matches(isDisplayed()))
+        onView(withText(R.string.cancel_button)).check(doesNotExist())
+
+        onView(withId(R.id.progress_bar)).check(matches(not(isDisplayed())))
+
+        onView(withText(R.string.calculate_button)).perform(click())
+        //idlingresouce await
+
+        onView(withText(R.string.calculate_button)).check(matches(isDisplayed()))
+        onView(withText(R.string.cancel_button)).check(doesNotExist())
+        onView(withId(R.id.progress_bar)).check(matches(not(isDisplayed())))
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
     }
 
     fun restartActivity() {
@@ -103,4 +142,5 @@ class MainFragmentManagerTest {
         scenario.moveToState(Lifecycle.State.RESUMED)
         scenario.recreate()
     }
+
 }

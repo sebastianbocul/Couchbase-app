@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="@color/mainBackground"
+    android:fillViewport="true">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/main_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.MainFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MainFragment">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right">
+            android:layout_height="wrap_content">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/mode_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_night_mode"
+                android:text="@string/save_button"
+                app:backgroundTint="@color/buttonColor" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/save_button"
@@ -24,7 +35,8 @@
                 android:layout_marginBottom="10dp"
                 android:src="@drawable/ic_save"
                 android:text="@string/save_button"
-                app:backgroundTint="#EEC0FFF2" />
+                android:layout_alignParentEnd="true"
+                app:backgroundTint="@color/buttonColor" />
         </RelativeLayout>
 
         <LinearLayout
@@ -65,7 +77,10 @@
                     android:gravity="center"
                     android:hint="from"
                     android:inputType="number"
-                    android:maxLength="9" />
+                    android:maxLength="9"
+                    android:textColorHint="@color/hintColor"
+                    android:outlineAmbientShadowColor="@color/hintColor"
+                    android:outlineSpotShadowColor="@color/hintColor"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -82,7 +97,8 @@
                     android:gravity="center"
                     android:hint="to"
                     android:inputType="number"
-                    android:maxLength="9" />
+                    android:maxLength="9"
+                    android:textColorHint="@color/hintColor"/>
             </LinearLayout>
 
 
@@ -123,7 +139,6 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="bottom|center"
-                    android:layout_marginTop="200dp"
                     android:layout_marginBottom="20dp"
                     android:src="@drawable/logo_calc_512px" />
             </RelativeLayout>
