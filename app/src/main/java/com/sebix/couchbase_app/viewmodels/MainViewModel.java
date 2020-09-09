@@ -21,6 +21,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MainViewModel extends ViewModel {
     private static final String TAG = "MainViewModel";
     private MainRepository mMainRepository;
+//    private Resource<ArrayList<Integer>> mPrimeNumbers;
 
     @ViewModelInject
     public MainViewModel(MainRepository mMainRepository) {
@@ -40,6 +41,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public void setPrimeNumbers(Resource<ArrayList<Integer>> primesNumbers) {
+//        mPrimeNumbers = primesNumbers;
         mMainRepository.setPrimeNumbers(primesNumbers);
     }
 
