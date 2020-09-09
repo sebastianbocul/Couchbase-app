@@ -3,6 +3,8 @@ package com.sebix.couchbase_app.utils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.Objects;
+
 public class Resource<T> {
     @NonNull
     public final Status status;
@@ -38,4 +40,19 @@ public class Resource<T> {
     }
 
     public enum Status {SUCCESS, ERROR, LOADING, EMPTY, CALCULATING}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Resource<?> resource = (Resource<?>) o;
+        return status == resource.status &&
+                Objects.equals(data, resource.data) &&
+                Objects.equals(message, resource.message);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(status, data, message);
+    }
 }

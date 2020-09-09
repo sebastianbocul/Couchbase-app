@@ -1,7 +1,5 @@
 package com.sebix.couchbase_app.viewmodels;
 
-import android.util.Log;
-
 import androidx.hilt.lifecycle.ViewModelInject;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -26,7 +24,6 @@ public class MainViewModel extends ViewModel {
 
     @ViewModelInject
     public MainViewModel(MainRepository mMainRepository) {
-        Log.d(TAG, "MainViewModel: ");
         this.mMainRepository = mMainRepository;
     }
 
@@ -52,12 +49,10 @@ public class MainViewModel extends ViewModel {
 
     public void calculateAndUpdate(Numbers numbers) {
         setNumbers(numbers);
-        Log.d(TAG, "SEND LOADING MESS");
         ArrayList<Integer> primeNumbersList = new ArrayList<Integer>();
         setPrimeNumbers(Resource.calculating(primeNumbersList));
 
         mMainRepository.setCancel(false);
-        Log.d(TAG, "calculateAndUpdate: " + mMainRepository.getCancel());
         Single<Object> obs = Single.create(emitter -> {
             Numbers listNumbers = new Numbers(numbers.getNumber1(), numbers.getNumber2());
             if (listNumbers.getNumber1() > listNumbers.getNumber2()) {
@@ -88,7 +83,6 @@ public class MainViewModel extends ViewModel {
 
             @Override
             public void onSuccess(@NonNull Object o) {
-                Log.d("MainFragment", "onSuccess: RxJava" + o.toString());
                 setPrimeNumbers(Resource.success((ArrayList<Integer>) o));
             }
 
