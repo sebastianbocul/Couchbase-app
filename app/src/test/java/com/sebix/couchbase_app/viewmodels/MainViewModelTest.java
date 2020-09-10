@@ -66,7 +66,35 @@ class MainViewModelTest {
     @Test
     void test_calculateAndUpdate_returnTrue() {
         //Assign
-        Numbers numbers = new Numbers(1, 10);
+        Numbers numbers = new Numbers(0, 10);
+        ArrayList<Integer> arrayList = new ArrayList<>(Arrays.asList(2, 3, 5, 7));
+        MutableLiveData<Resource<ArrayList<Integer>>> primeNumbersLD = new MutableLiveData<>();
+        primeNumbersLD.setValue(Resource.success(arrayList));
+        //calculations are saved directly to mainRepository
+        MainDatabase mainDatabase = mock(MainDatabase.class);
+        MutableLiveData<Resource<Numbers>> startData = new MutableLiveData<>();
+        startData.setValue(Resource.success(numbers));
+        when(mainDatabase.getNumbers()).thenReturn(startData);
+        MainRepository containerMainRepository = new MainRepository(mainDatabase);
+        mainViewModel = new MainViewModel(containerMainRepository);
+        //Act
+        mainViewModel.calculateAndUpdate(numbers);
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        MutableLiveData<Resource<ArrayList<Integer>>> returnedData = containerMainRepository.getPrimeNumbers();
+        Numbers returnedNumbers = containerMainRepository.getNumbers().getValue().data;
+        //Assert
+        assertEquals(primeNumbersLD.getValue(), returnedData.getValue());
+        assertEquals(numbers, returnedNumbers);
+    }
+
+    @Test
+    void test_reverseNumbers_calculateAndUpdate_returnTrue() {
+        //Assign
+        Numbers numbers = new Numbers(10, 0);
         ArrayList<Integer> arrayList = new ArrayList<>(Arrays.asList(2, 3, 5, 7));
         MutableLiveData<Resource<ArrayList<Integer>>> primeNumbersLD = new MutableLiveData<>();
         primeNumbersLD.setValue(Resource.success(arrayList));

@@ -28,9 +28,9 @@ import com.sebix.couchbase_app.viewmodels.MainViewModel;
 
 import java.util.ArrayList;
 
-import dagger.hilt.android.AndroidEntryPoint;
+import javax.inject.Inject;
 
-import static android.content.Context.MODE_PRIVATE;
+import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class MainFragment extends Fragment {
@@ -42,7 +42,8 @@ public class MainFragment extends Fragment {
     private ProgressBar mProgressBar;
     private ImageView mLogo;
     private boolean mNightMode;
-    private SharedPreferences mSharedPreferences;
+    @Inject
+    public SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
 
     public static MainFragment newInstance() {
@@ -68,7 +69,6 @@ public class MainFragment extends Fragment {
         mNumber1 = view.findViewById(R.id.number1);
         mNumber2 = view.findViewById(R.id.number2);
         mLogo = view.findViewById(R.id.logo_small);
-        mSharedPreferences = getActivity().getSharedPreferences("nightmode", MODE_PRIVATE);
         mNightMode = mSharedPreferences.getBoolean("nightmode", false);
         mEditor = mSharedPreferences.edit();
         setListeners();

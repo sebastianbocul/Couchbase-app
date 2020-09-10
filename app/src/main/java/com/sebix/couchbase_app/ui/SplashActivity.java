@@ -1,7 +1,6 @@
 package com.sebix.couchbase_app.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -10,22 +9,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.sebix.couchbase_app.R;
 
+
 public class SplashActivity extends AppCompatActivity {
     private ImageView mLogoImageView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences mSharedPreferences = getApplicationContext().getSharedPreferences("nightmode", MODE_PRIVATE);
-        boolean mNightMode = mSharedPreferences.getBoolean("nightmode", false);
-        if (mNightMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         mLogoImageView = findViewById(R.id.image_logo);

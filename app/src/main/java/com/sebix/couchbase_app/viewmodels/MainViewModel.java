@@ -22,7 +22,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MainViewModel extends ViewModel {
     private static final String TAG = "MainViewModel";
     private MainRepository mMainRepository;
-//    private Resource<ArrayList<Integer>> mPrimeNumbers;
 
     @ViewModelInject
     public MainViewModel(MainRepository mMainRepository) {
@@ -42,7 +41,6 @@ public class MainViewModel extends ViewModel {
     }
 
     public void setPrimeNumbers(Resource<ArrayList<Integer>> primesNumbers) {
-//        mPrimeNumbers = primesNumbers;
         mMainRepository.setPrimeNumbers(primesNumbers);
     }
 
@@ -52,11 +50,9 @@ public class MainViewModel extends ViewModel {
 
     public void calculateAndUpdate(Numbers numbers) {
         EspressoIdlingResource.INSTANCE.increment();
-
         setNumbers(numbers);
         ArrayList<Integer> primeNumbersList = new ArrayList<Integer>();
         setPrimeNumbers(Resource.calculating(primeNumbersList));
-
         mMainRepository.setCancel(false);
         Single<Object> obs = Single.create(emitter -> {
             Numbers listNumbers = new Numbers(numbers.getNumber1(), numbers.getNumber2());
@@ -67,7 +63,7 @@ public class MainViewModel extends ViewModel {
                 listNumbers.setNumber2(buffor);
             }
             ArrayList<Integer> listPrime = new ArrayList<>();
-            for (int i = listNumbers.getNumber1(); i < listNumbers.getNumber2(); i++) {
+            for (int i = listNumbers.getNumber1(); i <= listNumbers.getNumber2(); i++) {
                 if (!mMainRepository.getCancel()) {
                     if (CalculatePrimeNumbers.checkIsPrime(i)) {
                         listPrime.add(i);
@@ -94,6 +90,7 @@ public class MainViewModel extends ViewModel {
 
             @Override
             public void onError(@NonNull Throwable e) {
+                EspressoIdlingResource.INSTANCE.decrement();
             }
         };
         obs.subscribe(singleObserver);

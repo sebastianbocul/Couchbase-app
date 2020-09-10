@@ -1,28 +1,21 @@
 package com.sebix.couchbase_app.ui
 
-import android.widget.EditText
-import android.widget.TextView
-import androidx.annotation.ColorRes
 import androidx.lifecycle.Lifecycle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.activityScenarioRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import androidx.test.internal.util.Checks
 import com.sebix.couchbase_app.R
 import com.sebix.couchbase_app.utils.EspressoIdlingResource
 import com.sebix.couchbase_app.utils.RepeatRule
 import com.sebix.couchbase_app.utils.RepeatTest
-import org.hamcrest.Matcher
 import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.Description
 import org.junit.runner.RunWith
 import kotlin.random.Random
 
@@ -46,6 +39,7 @@ class MainFragmentManagerTest {
         onView(withId(R.id.calculate_button)).check(matches(isDisplayed()))
         onView(withId(R.id.save_button)).check(matches(isDisplayed()))
         onView(withId(R.id.logo_small)).check(matches(isDisplayed()))
+        onView(withId(R.id.mode_button)).check(matches(isDisplayed()))
     }
 
     @Test
@@ -137,10 +131,25 @@ class MainFragmentManagerTest {
         IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
     }
 
+    @Test
+    @RepeatTest(5)
+    fun test_nightMode() {
+        Thread.sleep(1000)
+        onView(withId(R.id.mode_button)).perform(click())
+
+        onView(withId(R.id.main_fragment)).check(matches(isDisplayed()))
+        onView(withId(R.id.number1)).check(matches(isDisplayed()))
+        onView(withId(R.id.number2)).check(matches(isDisplayed()))
+        onView(withId(R.id.calculate_button)).check(matches(isDisplayed()))
+        onView(withId(R.id.save_button)).check(matches(isDisplayed()))
+        onView(withId(R.id.logo_small)).check(matches(isDisplayed()))
+        onView(withId(R.id.mode_button)).check(matches(isDisplayed()))
+    }
+
+
     fun restartActivity() {
         var scenario = activityScenarioRule.getScenario()
         scenario.moveToState(Lifecycle.State.RESUMED)
         scenario.recreate()
     }
-
 }
